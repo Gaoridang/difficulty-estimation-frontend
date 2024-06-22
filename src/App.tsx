@@ -43,7 +43,7 @@ interface Result {
 }
 
 const api = axios.create({
-  baseURL: "http://localhost:8000",
+  baseURL: "https://sacred-sher-gaoridang-eec88f54.koyeb.app",
 });
 
 export default function App() {
