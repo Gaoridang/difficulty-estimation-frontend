@@ -38,6 +38,10 @@ interface ComparisonResult {
   relative_difficulty: number;
 }
 
+const api = axios.create({
+  baseURL: API_URL,
+});
+
 const ExperienceDifficultyEstimator: React.FC = () => {
   const [experience, setExperience] = useState<string>("");
   const [result, setResult] = useState<EstimationResult | null>(null);
@@ -50,10 +54,9 @@ const ExperienceDifficultyEstimator: React.FC = () => {
     setLoading(true);
     setError("");
     try {
-      const response = await axios.post<EstimationResult>(
-        `${API_URL}/estimate`,
-        { text: experience },
-      );
+      const response = await api.post<EstimationResult>(`${API_URL}/estimate`, {
+        text: experience,
+      });
       setResult(response.data);
     } catch (err) {
       setError("난이도 추정 중 오류가 발생했습니다. 다시 시도해 주세요.");
@@ -70,14 +73,11 @@ const ExperienceDifficultyEstimator: React.FC = () => {
     setLoading(true);
     setError("");
     try {
-      const response = await axios.post<ComparisonResult>(
-        `${API_URL}/compare`,
-        {
-          experience_id: result.user_experience.id,
-          is_more_difficult_than_lower: isMoreDifficult,
-          is_less_difficult_than_higher: isLessDifficult,
-        },
-      );
+      const response = await api.post<ComparisonResult>(`${API_URL}/compare`, {
+        experience_id: result.user_experience.id,
+        is_more_difficult_than_lower: isMoreDifficult,
+        is_less_difficult_than_higher: isLessDifficult,
+      });
       setComparison(response.data);
     } catch (err) {
       setError("비교 결과 제출 중 오류가 발생했습니다. 다시 시도해 주세요.");
