@@ -42,8 +42,10 @@ interface Result {
   difficulty_scores: number[];
 }
 
+const BASE_URL = import.meta.env.BASE_URL;
+
 const api = axios.create({
-  baseURL: "https://sacred-sher-gaoridang-eec88f54.koyeb.app",
+  baseURL: BASE_URL,
 });
 
 export default function App() {
